@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\FileController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[FileController::class, 'index']);
+
+Route::resource('/file', FileController::class);
+
+Route::get('/enviar', [FileController::class,'enviar']);
+Route::get('/consulta', [FileController::class,'consulta']);
+
+Route::post('/file/store', [FileController::class,'store']);
+Route::post('/file/destroy', [FileController::class,'destroy']);
+
