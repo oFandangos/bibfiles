@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-
     public function index(Request $request){
         return view('index');
     }    
 
     public function store(FileRequest $request)
     {
+        $this->authorize('admin');
         $validated = $request->validated();
         $file = new File;
         $file->original_name = $request->original_name;
@@ -29,16 +29,19 @@ class FileController extends Controller
 
     public function show(File $file)
     {
+        $this->authorize('admin');
         return Storage::download($file->path, $file->original_name);
     }
 
     public function destroy(File $file)
     {
+        $this->authorize('admin');
         $file->delete();
         return back()->with('success', 'Arquivo Deletado'); ;
     } 
 
     public function enviar(Request $request){
+        $this->authorize('admin');
         return view('upload.index');
     }    
 

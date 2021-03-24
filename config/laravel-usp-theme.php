@@ -17,15 +17,11 @@ $menu = [
 # USPTHEME_SKIN deve ser colocado no .env da aplicação 
 
 return [
-    'title'=> 'Arquivos da Biblioteca',
-    'dashboard_url' => config('app.url'),
+    'title' => config('app.name'),
+    'skin' => env('USP_THEME_SKIN', 'uspdev'),
+    'app_url' => config('app.url'),
     'logout_method' => 'POST',
-    'logout_url' => '/logout',
-    'login_url' => '/',
-    'menu' => [
-        [
-            'text'    => 'Menu',
-            'submenu' => $menu,
-        ]
-    ]
+    'logout_url' => config('app.url') . '/logout',
+    'login_url' => config('app.url') . '/login',
+    'menu' => $menu,
 ];
