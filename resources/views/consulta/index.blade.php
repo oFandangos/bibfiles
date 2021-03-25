@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 
 @section('content')
 
@@ -7,7 +7,7 @@
 <hr>
 
 <div class="card">
-    <div class="card-header"><b>Arquivos Enviados</b></div>
+    <div class="card-header"><b>Consulta de Arquivos</b></div>
         <div class="card-body">
             @include('files.partials.exibir')
         </div>  

@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function index(Request $request){
-        return view('index');
+    public function index(Request $request, File $file){
+        $file = File::get();
+        return view('index')->with('file',$file);
     }    
 
     public function store(FileRequest $request)
@@ -49,5 +50,9 @@ class FileController extends Controller
         $file = File::get();
         return view('consulta.index')->with('file',$file);
     }    
+
+    public function requisicao(Request $request){
+        return view('requisicao.index');
+    }  
 
 }
