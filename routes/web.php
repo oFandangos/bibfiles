@@ -16,7 +16,8 @@ Route::resource('/file', FileController::class);
 
 Route::get('/enviar', [FileController::class,'enviar']);
 Route::get('/consulta', [FileController::class,'consulta']);
-Route::get('/requisicao', [FileController::class,'requisicao']);
+Route::get('/requisicao/{file}', [FileController::class,'requisicao']);
+Route::post('/pedido/{file}', [FileController::class,'pedido']);
 
 Route::post('/file/store', [FileController::class,'store']);
 Route::post('/file/destroy', [FileController::class,'destroy']);

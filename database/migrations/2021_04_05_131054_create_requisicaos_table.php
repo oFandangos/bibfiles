@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Requisicoes extends Migration
+class CreateRequisicaosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class Requisicoes extends Migration
      */
     public function up()
     {
-        Schema::create('requisicoes', function (Blueprint $table) {
+        Schema::create('requisicaos', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->string('nome');
             $table->string('email');
             $table->text('finalidade');
@@ -30,6 +31,6 @@ class Requisicoes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requisicoes');
+        Schema::dropIfExists('requisicaos');
     }
 }

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\File;
+use App\Models\Requisicao;
 use Illuminate\Http\Request;
 use App\Http\Requests\FileRequest;
+use App\Http\Requests\RequisicaoRequest;
 use Illuminate\Support\Facades\Storage;
-
 class FileController extends Controller
 {
     public function index(Request $request, File $file){
@@ -47,12 +48,31 @@ class FileController extends Controller
     }    
 
     public function consulta(Request $request){
-        $file = File::get();
+
+        if ($request->busca != null){
+            $file = File::where('original_name','LIKE',"%{$request->busca}%")->paginate(10);
+        } else {
+            $file = File::paginate(10);
+        }
         return view('consulta.index')->with('file',$file);
     }    
 
-    public function requisicao(Request $request){
-        return view('requisicao.index');
+    public function requisicao(File $file){
+        return view('requisicao.index')->with([
+            'file' => $file,
+            'requisicao' => new Requisicao()
+        ]);
     }  
+
+    public function pedido(RequisicaoRequest $request, Requisicao $requisicao){
+        $validated = $request->validated();
+        $requisicao = new Requisicao;
+        $requisicao->files_id = $request->files_id;
+        $requisicao->nome = $request->nome;
+        $requisicao->email = $request->email;
+        $requisicao->finalidade = $request->finalidade;
+        $requisicao->save();
+        return back()->with('success', 'Arquivo enviado com sucesso'); ;;
+    } 
 
 }
