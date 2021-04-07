@@ -24,8 +24,8 @@ class FileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|max:12000|mimes:pdf',
-            'original_name' => 'required',
+            'file' => 'required|file|max:32000|mimes:pdf',
+            'name' => 'required',
         ];
     }
 
@@ -36,7 +36,7 @@ class FileRequest extends FormRequest
             'file.file' => 'O envio deve ser de arquivos apenas',
             'file.mimes' => 'O sistema apenas aceita arquivos no formato PDF',
             'file.max' => 'O peso máximo aceito por arquivo é de 12 MB',
-            'original_name.required' => 'O arquvo enviado deve possuir um nome para ser armazenado no sistema',
+            'name.required' => 'O arquivo enviado deve possuir um nome para ser armazenado no sistema',
         ];
     }
 }

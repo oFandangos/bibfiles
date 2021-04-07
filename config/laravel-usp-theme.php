@@ -4,12 +4,12 @@ $menu = [
 
     [
         'text' => 'Enviar Arquivos',
-        'url'  => '/enviar',
+        'url'  => '/files/create',
         'can'     => 'admin',
     ],
     [
         'text' => 'Acessar Arquivos',
-        'url'  => '/consulta',
+        'url'  => '/files',
     ],
 
 ];

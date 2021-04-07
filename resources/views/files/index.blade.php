@@ -10,7 +10,7 @@
     <div class="card-header"><b>Consulta de Arquivos</b></div>
         <div class="card-body">
 
-            <form method="get" action="/consulta">
+            <form method="get" action="/files">
                 <div class="row">
                     <div class=" col-sm input-group">
                     <input type="text" class="form-control" name="busca" value="{{Request()->busca}}" placeholder="Busca por nome do arquivo">  

@@ -17,9 +17,10 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('original_name');
+            $table->string('name');
             $table->string('path');
-            $table->string('user_id');
-            $table->string('acesso')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

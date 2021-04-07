@@ -7,9 +7,8 @@
         <div class="card-body">
         <div>
             <b>Nome do Arquivo:</b> {{$file->original_name}}<br>
-            <b>Status de Circulação:</b> {{$file->acesso}}<br><br>
         </div>
-            @include('files.partials.requisicao')
+            @include('pedidos.partials.form')
         </div>  
 </div>
 

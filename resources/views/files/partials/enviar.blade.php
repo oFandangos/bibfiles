@@ -1,9 +1,9 @@
-<form method="post" enctype="multipart/form-data" action="/file/store">
+<form method="post" enctype="multipart/form-data" action="/files">
     @csrf 
     <input type="file" name="file">
     <br><hr>
-    <label for="original_name" class="required">Nome do Arquivo: </label>
-    <input type="text" class="form-control" id="original_name" name="original_name">
+    <label for="name" class="required">Nome do Arquivo: </label>
+    <input type="text" class="form-control" id="name" name="name">
     <br>
     <button type="submit" class="btn btn-success"> Enviar </button>
 </form>   

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PedidoController;
 
 Route::get('/',[FileController::class, 'index']);
 
@@ -12,15 +13,13 @@ Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('logout', [LoginController::class, 'logout']);
 
 
-Route::resource('/file', FileController::class);
+Route::resource('/files', FileController::class);
 
-Route::get('/enviar', [FileController::class,'enviar']);
-Route::get('/consulta', [FileController::class,'consulta']);
-Route::get('/requisicao/{file}', [FileController::class,'requisicao']);
-Route::post('/pedido/{file}', [FileController::class,'pedido']);
+Route::get('/pedidos/{file}', [PedidoController::class,'create']);
+Route::post('/pedidos', [PedidoController::class,'store']);
+Route::get('/pendentes', [PedidoController::class,'pendentes']);
+Route::post('/autorizar/{file}', [PedidoController::class,'autorizar']);
 
-Route::post('/file/store', [FileController::class,'store']);
-Route::post('/file/destroy', [FileController::class,'destroy']);
-
+Route::get('acesso/autorizado', [PedidoController::class,'empresa'])->name('acesso_autorizado');
 
 
