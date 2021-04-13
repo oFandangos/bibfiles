@@ -3,13 +3,18 @@
 $menu = [
 
     [
+        'text' => 'Acessar Arquivos',
+        'url'  => '/files',
+    ],
+    [
         'text' => 'Enviar Arquivos',
         'url'  => '/files/create',
         'can'     => 'admin',
     ],
     [
-        'text' => 'Acessar Arquivos',
-        'url'  => '/files',
+        'text' => 'Requisições Pendentes',
+        'url'  => '/pendentes',
+        'can'     => 'admin',
     ],
 
 ];

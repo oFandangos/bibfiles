@@ -16,9 +16,9 @@ Route::post('logout', [LoginController::class, 'logout']);
 Route::resource('/files', FileController::class);
 
 Route::get('/pedidos/{file}', [PedidoController::class,'create']);
-Route::post('/pedidos', [PedidoController::class,'store']);
+Route::post('/novopedido/{pedido}', [PedidoController::class,'store']);
 Route::get('/pendentes', [PedidoController::class,'pendentes']);
-Route::post('/autorizar/{file}', [PedidoController::class,'autorizar']);
+Route::post('/autorizar/{pedido}', [PedidoController::class,'autorizar']);
 
 Route::get('acesso/autorizado', [PedidoController::class,'empresa'])->name('acesso_autorizado');
 

@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\File;
-use App\Models\Requisicao;
 use Illuminate\Http\Request;
 use App\Http\Requests\FileRequest;
-use App\Http\Requests\RequisicaoRequest;
 use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
@@ -57,7 +55,8 @@ class FileController extends Controller
         $this->authorize('admin');
         Storage::delete($file->path);
         $file->delete();
-        return back()->with('success', 'Arquivo Deletado'); ;
+        request()->session()->flash('alert-success', 'Arquivo Deletado');
+        return back();
     } 
 
 

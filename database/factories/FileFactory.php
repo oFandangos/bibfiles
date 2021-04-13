@@ -24,14 +24,13 @@ class FileFactory extends Factory
     public function definition()
     {
 
-        $acesso = ['Publico','Restrito','Interno'];
         $id = $this->faker->numberBetween(2, 21);
 
         return [
+            'name' => $this->faker->text($maxNbChars = 25),
             'original_name' => $this->faker->text($maxNbChars = 25), 
             'path' => $this->faker->file('./storage/app'),        
             'user_id'  => $id,  
-            'acesso' => $acesso[array_rand($acesso)],
         ];
     }
 }
