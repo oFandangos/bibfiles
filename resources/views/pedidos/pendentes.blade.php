@@ -22,7 +22,7 @@
                     </form>
                 </td>
                 <td>            
-                    teste
+                    {{$pedido->files_id}} - {{App\Models\File::where('id',$pedido->files_id)->first()->name}}
                 </td>
                 <td>            
                     {{$pedido->nome}}

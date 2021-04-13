@@ -18,9 +18,9 @@ class pedido_autorizacao_mail extends Mailable
      *
      * @return void
      */
-    public function __construct(Pedido $pedido)
+    public function __construct($request)
     {
-        $this->pedido = $pedido;
+        $this->pedido = $request;
     }
 
 

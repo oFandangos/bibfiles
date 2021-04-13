@@ -25,7 +25,7 @@ class PedidoController extends Controller
     public function store(PedidoRequest $request, Pedido $pedido){
         $validated = $request->validated();
         Pedido::create($validated);
-        Mail::send(new pedido_autorizacao_mail($pedido));
+        Mail::send(new pedido_autorizacao_mail($request));
         request()->session()->flash('alert-success', 'Solicitação de acesso enviada com sucesso');
         return back();
     } 
