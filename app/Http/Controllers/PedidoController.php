@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Pedido;
-use App\Models\File;
-use App\Http\Requests\PedidoRequest;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Models\File;
+use App\Models\Pedido;
+use App\Http\Requests\PedidoRequest;
+use App\Mail\pedido_autorizacao_mail;
+use App\Mail\acesso_autorizado_mail;
 
 class PedidoController extends Controller
 {
@@ -17,10 +22,12 @@ class PedidoController extends Controller
         ]);
     }  
 
-    public function store(PedidoRequest $request){
+    public function store(PedidoRequest $request, Pedido $pedido){
         $validated = $request->validated();
         Pedido::create($validated);
-        return back()->with('success', 'Solicitação enviada com sucesso'); ;;
+        Mail::send(new pedido_autorizacao_mail($request));
+        request()->session()->flash('alert-success', 'Solicitação de acesso enviada com sucesso');
+        return back();
     } 
 
     public function pendentes(){
@@ -33,18 +40,18 @@ class PedidoController extends Controller
 
     public function autorizar(Pedido $pedido){
 
-        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(120), [
+        $this->authorize('admin');
+        $pedido->autorizador_id = Auth::user()->id;
+        $pedido->autorizado_em = Carbon::now();
+        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(2880), [
             'file_id' => $pedido->file_id,
             'email'   => $pedido->email,
         ]);
 
-        # Enviar um email para pessoa que fez a solicitação
-
-        # Enviar essa url neste email: $url
-
-        #  registrar que autorizou e quando em $pedido->autorizador_id e $pedido->autorizado_em
-
-        dd($url);
+        Mail::send(new acesso_autorizado_mail($url,$pedido->email));
+        request()->session()->flash('alert-info',
+        'Autorização do arquivo enviada com sucesso para o email: ' . $pedido->email);
+        return back();
     }
 
     

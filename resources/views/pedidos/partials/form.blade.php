@@ -1,4 +1,4 @@
-<form method="POST" action="/pedidos">
+<form method="POST" action="/novopedido">
 @csrf
 <input type="hidden" name="files_id" value="{{$file->id}}">
 <div class="card">

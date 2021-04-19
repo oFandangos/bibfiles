@@ -14,10 +14,10 @@ class FileSeeder extends Seeder
     public function run()
     {
         $entrada = [
-            'original_name' => 'PDF de Teste',
+            'name' => 'PDF de Teste',
+            'original_name' => 'pdf_de_Teste.pdf',
             'path' => './tmp/PDFdeTeste.pdf',
-            'user_id'  => '1',
-            'acesso' => 'Publico',
+            'user_id'  => '10',
         ];
 
         File::create($entrada); 

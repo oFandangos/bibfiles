@@ -1,5 +1,9 @@
 @extends('main')
 
+@section('styles')
+  <link rel="stylesheet" type="text/css" href="{{asset('/css/files.css')}}">
+@endsection('styles')
+
 @section('content')
 
 @inject('arquivo','App\Models\File')
