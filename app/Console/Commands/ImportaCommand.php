@@ -40,6 +40,8 @@ class ImportaCommand extends Command
      */
     public function handle()
     {
+        /* Script usado quando migramos o sistema, mantido para histórico apenas
+        
         $lista = file_get_contents("http://public.fflch.usp.br/lista.txt");
         $lista = explode(PHP_EOL, $lista);
         foreach($lista as $arquivo){
@@ -55,6 +57,7 @@ class ImportaCommand extends Command
             $file->user_id = 1;
             $file->save();
         }
+        */
 
         return 0;
     }
