@@ -40,6 +40,8 @@ class acesso_autorizado_mail extends Mailable
         return $this->view('emails.acesso_autorizado')
                     ->to($to)
                     ->subject($subject)
+                    ->from(config('mail.from.address'))
+                    ->replyTo(config('mail.reply_to.address'))
                     ->with([
                         'url' => $this->url,
                     ]);

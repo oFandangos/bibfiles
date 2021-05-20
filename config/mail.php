@@ -93,11 +93,6 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
-    'autorizador' => [
-        'address' => env('MAIL_AUTORIZADOR', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME_AUTORIZADOR', 'Example'),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

@@ -32,13 +32,15 @@ class pedido_autorizacao_mail extends Mailable
     public function build()
     {
 
-        $to = [$this->pedido->email,config('mail.autorizador.address')];
-
+        $to = explode(',',env('email_autorizador'));
+        $to[] =  $this->pedido->email;
         $subject = 'Novo pedido de acesso - Biblioteca da FFLCH USP';
 
         return $this->view('emails.pedido_autorizacao')
                     ->to($to)
                     ->subject($subject)
+                    ->from(config('mail.from.address'))
+                    ->replyTo(config('mail.reply_to.address'))
                     ->with([
                         'pedido' => $this->pedido,
                     ]);
