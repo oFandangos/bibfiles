@@ -47,7 +47,6 @@ class PedidoController extends Controller
     }  
 
     public function store(PedidoRequest $request, Pedido $pedido){
-
         $validated = $request->validated();
         Pedido::create($validated);
         Mail::send(new pedido_autorizacao_mail($request));
@@ -64,7 +63,6 @@ class PedidoController extends Controller
     }
 
     public function autorizar(Pedido $pedido){
-
         $this->authorize('admin');
         $pedido->autorizador_id = Auth::user()->id;
         $pedido->autorizado_em = Carbon::now();
@@ -91,7 +89,5 @@ class PedidoController extends Controller
                 "Solicitação expirada. Faça uma nova requisição!");
             return redirect('/');
         }
-    }
-
-    
+    }    
 }
