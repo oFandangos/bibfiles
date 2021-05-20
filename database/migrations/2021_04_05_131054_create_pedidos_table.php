@@ -19,12 +19,11 @@ class CreatePedidosTable extends Migration
             $table->string('nome');
             $table->string('email');
             $table->text('finalidade');
-            $table->unsignedBigInteger('files_id');
-            $table->foreign('files_id')->references('id')->on('files');
-
-            $table->unsignedBigInteger('autorizador_id')->nullable();
-            $table->foreign('autorizador_id')->references('id')->on('users')->onDelete('set null');
             $table->dateTime('autorizado_em')->nullable();
+
+            $table->foreignId('file_id')->constrained('files')->onDelete('cascade');
+            $table->foreignId('autorizador_id')->nullable()->constrained('users')->onDelete('set null');
+
         });
     }
 

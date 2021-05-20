@@ -1,6 +1,6 @@
 <form method="POST" action="/pedido/{{$file->id}}">
 @csrf
-<input type="hidden" name="files_id" value="{{$file->id}}">
+<input type="hidden" name="file_id" value="{{$file->id}}">
 <div class="card">
   <div class="card-header">Formulário de Requisição do Arquivo</div>
 

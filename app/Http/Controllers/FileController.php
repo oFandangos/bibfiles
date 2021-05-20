@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-
     public function index(Request $request, File $file){
         if ($request->busca != null){
             $files = File::where('original_name','LIKE',"%{$request->busca}%")->
@@ -58,10 +57,5 @@ class FileController extends Controller
         request()->session()->flash('alert-success', 'Arquivo Deletado');
         return back();
     } 
-
-
-
-
-
 
 }

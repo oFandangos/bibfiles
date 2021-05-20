@@ -20,6 +20,11 @@ Route::post('/novopedido', [PedidoController::class,'store']);
 Route::get('/pendentes', [PedidoController::class,'pendentes']);
 Route::post('/autorizar/{pedido}', [PedidoController::class,'autorizar']);
 
-Route::get('acesso/autorizado', [PedidoController::class,'empresa'])->name('acesso_autorizado');
+Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->name('acesso_autorizado');
 
+Route::get('/{file_by_name}', [PedidoController::class,'file_by_name']);
+
+# Mantendo retrocompatibilidade com antigo sistema de FTP
+# Exemplo: private/A/Abdala_JB_AsComemoracoesDos500Anos.pdf
+Route::get('/private/{letra}/{file_by_name}', [PedidoController::class,'retro']);
 

@@ -27,7 +27,7 @@ class PedidoRequest extends FormRequest
             'nome'       => 'required',
             'email'      => 'required',
             'finalidade' => 'required',
-            'files_id'   => 'required'
+            'file_id'   => 'required'
         ];
     }
 

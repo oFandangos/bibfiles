@@ -21,8 +21,8 @@
                         <button type="submit"><i class=""></i>Autorizar</button>
                     </form>
                 </td>
-                <td>            
-                    {{$pedido->files_id}} - {{App\Models\File::where('id',$pedido->files_id)->first()->name}}
+                <td>             
+                    {{ $pedido->file->name }}  ({{ $pedido->file->original_name }})
                 </td>
                 <td>            
                     {{$pedido->nome}}

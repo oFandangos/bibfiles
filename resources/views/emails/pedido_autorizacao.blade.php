@@ -1,7 +1,7 @@
 Um novo pedido de acesso foi realizado no sistema de arquivos da biblioteca da FFLCH - USP<br><br>
 
 Informações sobre o pedido:<br>
-<b>Nome do Arquivo:</b> {{App\Models\File::where('id',$pedido->files_id)->first()->name}} - <b>ID:</b> {{ $pedido->files_id }}.
+<b>Nome do Arquivo:</b> {{App\Models\File::where('id',$pedido->file_id)->first()->name}} - <b>ID:</b> {{ $pedido->file_id }}.
 <b>Nome do Requisitante:</b> {{ $pedido->nome }}.<br>
 <b>Email:</b> {{ $pedido->email }}.<br>
 <b>Finalidade do acesso:</b> {{ $pedido->finalidade }}.<br><br>
