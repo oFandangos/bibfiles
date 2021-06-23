@@ -18,9 +18,9 @@ class pedido_autorizacao_mail extends Mailable
      *
      * @return void
      */
-    public function __construct($request)
+    public function __construct($pedido)
     {
-        $this->pedido = $request;
+        $this->pedido = $pedido;
     }
 
 
@@ -32,7 +32,7 @@ class pedido_autorizacao_mail extends Mailable
     public function build()
     {
 
-        $to = explode(',',env('email_autorizador'));
+        $to = explode(',',env('MAIL_AUTORIZADOR'));
         $to[] =  $this->pedido->email;
         $subject = 'Novo pedido de acesso - Biblioteca da FFLCH USP';
 
