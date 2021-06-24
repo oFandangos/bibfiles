@@ -5,7 +5,7 @@
             <th>Nome</th>
             <th>Arquivo</th>
             @can('admin')
-            <th>Download</th>
+            <th>Download (somente admin)</th>
             <th>Ações</th>
             @endcan('admin')
         </tr>
@@ -18,7 +18,7 @@
                 </td>
 
                 <td>            
-                <a href="/pedidos/{{$arquivo->id}}" type="application/pdf" target="pdf-frame"><i class="fas fa-file-pdf"></i> {{$arquivo->original_name}} </a>
+                <a href="/{{$arquivo->original_name}}" type="application/pdf" target="pdf-frame"><i class="fas fa-file-pdf"></i> {{$arquivo->original_name}} </a>
                 </td>
                 @can('admin')
                 <td>
