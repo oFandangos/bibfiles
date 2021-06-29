@@ -13,6 +13,7 @@ use App\Http\Requests\PedidoRequest;
 use App\Mail\pedido_autorizacao_mail;
 use App\Mail\acesso_autorizado_mail;
 use Illuminate\Support\Facades\Storage;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class PedidoController extends Controller
 {
@@ -89,5 +90,49 @@ class PedidoController extends Controller
                 "Solicitação expirada. Faça uma nova requisição!");
             return redirect('/');
         }
-    }    
+    }   
+
+    public function index(Request $request){
+
+        $this->authorize('admin');
+
+        $total = Pedido::get('id')->count();
+        $total_autorizado = Pedido::where('autorizado_em','!=',null)->count();
+        $total_pendentes = Pedido::where('autorizado_em','=',null)->count();
+
+        if(isset($request->busca)) {
+                $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();  
+        } else {
+            $pedidos = Pedido::get();
+
+            if($request->type){
+                $export = new FastExcel($this->excel($pedidos));
+                return $export->download('estagios.xlsx');
+            }
+        }
+        return view('pedidos.realizados')->with([
+            'pedidos' => $pedidos,
+            'total' => $total,
+            'total_autorizado' => $total_autorizado,
+            'total_pendentes' => $total_pendentes,
+        ]);
+
+    }
+
+    private function excel($pedidos){
+        $aux =[];
+        foreach($pedidos as $pedido){
+            $aux[] = [
+                'Arquivo Requisitado' => $pedido->file->name,
+                'Nome'                => $pedido->nome,
+                'Email'               => $pedido->email,
+                'Finalidade'          => $pedido->finalidade,
+                'Data do Pedido'      => $pedido->created_at->format('d/m/Y'), 
+                'Data de Autorização' => $pedido->autorizado_em,
+            ];
+
+        }
+        return collect($aux);
+
+}
 }
