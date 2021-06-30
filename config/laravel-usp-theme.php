@@ -16,6 +16,11 @@ $menu = [
         'url'  => '/pendentes',
         'can'     => 'admin',
     ],
+    [
+        'text' => 'Pedidos Realizados',
+        'url'  => '/pedidos_realizados',
+        'can'     => 'admin',
+    ],
 
 ];
 

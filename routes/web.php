@@ -14,11 +14,14 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 
 Route::resource('/files', FileController::class);
+Route::resource('/pedidos', PedidoController::class);
 
 Route::get('/pedidos/{file}', [PedidoController::class,'create']);
 Route::post('/novopedido', [PedidoController::class,'store']);
 Route::get('/pendentes', [PedidoController::class,'pendentes']);
+Route::get('/pedidos_realizados', [PedidoController::class,'index']);
 Route::post('/autorizar/{pedido}', [PedidoController::class,'autorizar']);
+
 
 Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->name('acesso_autorizado');
 
