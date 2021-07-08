@@ -14,8 +14,8 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 
 Route::resource('/files', FileController::class);
-Route::resource('/pedidos', PedidoController::class);
 
+Route::get('/pedidos', [PedidoController::class,'index']);
 Route::get('/pedidos/{file}', [PedidoController::class,'create']);
 Route::post('/novopedido', [PedidoController::class,'store']);
 Route::get('/pendentes', [PedidoController::class,'pendentes']);
