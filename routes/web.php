@@ -15,6 +15,10 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 Route::resource('/files', FileController::class);
 
+# Logs  
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
+
+
 Route::get('/pedidos', [PedidoController::class,'index']);
 Route::get('/pedidos/{file}', [PedidoController::class,'create']);
 Route::post('/novopedido', [PedidoController::class,'store']);

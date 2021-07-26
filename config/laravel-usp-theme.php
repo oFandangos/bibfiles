@@ -24,6 +24,18 @@ $menu = [
 
 ];
 
+$right_menu = [
+    [
+        'text'   => '<i class="fas fa-hard-hat"></i>',
+        'title'  => 'logs',
+        'target' => '_blank',
+        'url'    => config('app.url') . '/logs',
+        'align'  => 'right',
+        'can'    => 'admin',
+    ],
+];
+
+
 # dashboard_url renomeado para app_url
 # USPTHEME_SKIN deve ser colocado no .env da aplicação 
 
@@ -35,4 +47,5 @@ return [
     'logout_url' => config('app.url') . '/logout',
     'login_url' => config('app.url') . '/login',
     'menu' => $menu,
+    'right_menu' => $right_menu,
 ];
