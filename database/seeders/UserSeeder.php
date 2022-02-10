@@ -17,13 +17,12 @@ class UserSeeder extends Seeder
             'name' => 'User de Teste',
             'codpes' => '100000',
             'email' => 'Teste@Teste.com',
-            'email_verified_at'  => '10',
+            'email_verified_at'  => now(),
             'password' => 'Teste',
             'remember_token' => 'Teste',
-
         ];
 
-        User::create($entrada); 
+        User::create($entrada);
         User::factory(20)->create();
     }
 }
