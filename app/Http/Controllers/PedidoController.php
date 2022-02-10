@@ -26,7 +26,7 @@ class PedidoController extends Controller
             $request->session()->flash('alert-danger',
                 "Arquivo não encontrado");
             return redirect('/');
-        }   
+        }
     }
 
     public function retro(Request $request, $letra, $file_by_name){
@@ -44,9 +44,9 @@ class PedidoController extends Controller
     public function create(File $file){
         return view('pedidos.create')->with([
             'file'   => $file,
-            'pedido' => new Pedido(), 
+            'pedido' => new Pedido(),
         ]);
-    }  
+    }
 
     public function store(PedidoRequest $request, Pedido $pedido){
         $validated = $request->validated();
@@ -55,7 +55,7 @@ class PedidoController extends Controller
         request()->session()->flash('alert-success', 'Solicitação de acesso enviada com sucesso.
             Aguarde instruções via e-mail.');
         return back();
-    } 
+    }
 
     public function pendentes(){
         $this->authorize('admin');
@@ -68,38 +68,36 @@ class PedidoController extends Controller
     public function autorizar(Request $request, Pedido $pedido){
         $this->authorize('admin');
 
+        $pedido->autorizado_em = Carbon::now();
+        $pedido->autorizador_id = Auth::user()->id;
         if($request->autorizar_action == 'acesso_autorizado')
         {
-            $pedido->autorizado_em = Carbon::now();
-            $pedido->autorizador_id = Auth::user()->id;
             $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(2880), [
                 'file_id'   => $pedido->file_id,
                 'pedido_id' => $pedido->id
             ]);
-    
+
             Mail::queue(new acesso_autorizado_mail($url,$pedido->email));
             request()->session()->flash('alert-info',
                 'Autorização do arquivo enviada com sucesso para o email: ' . $pedido->email);
-            $pedido->save();
-            return back();
         }
 
         if($request->autorizar_action == 'acesso_negado')
         {
             $request->validate([
                 'justificativa' => 'required',
+            ],
+            [
+                'justificativa.required' => 'O campo justificativa é requerido.'
             ]);
-            $pedido->autorizado_em = Carbon::now();
-            $pedido->autorizador_id = Auth::user()->id;
-            $this->authorize('admin');
             $pedido->negado = true;
             $pedido->justificativa = $request->justificativa;
-            $pedido->save();
             Mail::queue(new acesso_negado_mail($pedido->email,$pedido));
             request()->session()->flash('alert-info',
-                'Aviso sobre o arquivo enviada com sucesso para o email: ' . $pedido->email);
-            return back();
+                'Aviso sobre o arquivo enviado com sucesso para o email: ' . $pedido->email);
         }
+        $pedido->save();
+        return back();
     }
 
     public function acesso_autorizado(Request $request)
@@ -112,7 +110,7 @@ class PedidoController extends Controller
                 "Solicitação expirada. Faça uma nova requisição!");
             return redirect('/');
         }
-    }   
+    }
 
     public function index(Request $request){
 
@@ -124,7 +122,7 @@ class PedidoController extends Controller
         $total_negados = Pedido::where('negado','=',true)->count();
 
         if(isset($request->busca)) {
-                $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();  
+                $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();
         } else {
             $pedidos = Pedido::get();
 
@@ -161,7 +159,7 @@ class PedidoController extends Controller
                 'Email'                             => $pedido->email,
                 'Finalidade'                        => $pedido->finalidade,
                 'Justificativa de Acesso Negado'    => $pedido->justificativa,
-                'Data do Pedido'                    => $pedido->created_at->format('d/m/Y'), 
+                'Data do Pedido'                    => $pedido->created_at->format('d/m/Y'),
                 'Data de Análise'                   => $pedido->autorizado_em,
             ];
 
