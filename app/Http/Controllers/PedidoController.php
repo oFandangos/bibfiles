@@ -12,6 +12,7 @@ use App\Models\Pedido;
 use App\Http\Requests\PedidoRequest;
 use App\Mail\pedido_autorizacao_mail;
 use App\Mail\acesso_autorizado_mail;
+use App\Mail\acesso_negado_mail;
 use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -64,20 +65,41 @@ class PedidoController extends Controller
         ]);
     }
 
-    public function autorizar(Pedido $pedido){
+    public function autorizar(Request $request, Pedido $pedido){
         $this->authorize('admin');
-        $pedido->autorizador_id = Auth::user()->id;
-        $pedido->autorizado_em = Carbon::now();
-        $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(2880), [
-            'file_id'   => $pedido->file_id,
-            'pedido_id' => $pedido->id
-        ]);
 
-        Mail::queue(new acesso_autorizado_mail($url,$pedido->email));
-        request()->session()->flash('alert-info',
-            'Autorização do arquivo enviada com sucesso para o email: ' . $pedido->email);
-        $pedido->save();
-        return back();
+        if($request->autorizar_action == 'acesso_autorizado')
+        {
+            $pedido->autorizado_em = Carbon::now();
+            $pedido->autorizador_id = Auth::user()->id;
+            $url = URL::temporarySignedRoute('acesso_autorizado', now()->addMinutes(2880), [
+                'file_id'   => $pedido->file_id,
+                'pedido_id' => $pedido->id
+            ]);
+    
+            Mail::queue(new acesso_autorizado_mail($url,$pedido->email));
+            request()->session()->flash('alert-info',
+                'Autorização do arquivo enviada com sucesso para o email: ' . $pedido->email);
+            $pedido->save();
+            return back();
+        }
+
+        if($request->autorizar_action == 'acesso_negado')
+        {
+            $request->validate([
+                'justificativa' => 'required',
+            ]);
+            $pedido->autorizado_em = Carbon::now();
+            $pedido->autorizador_id = Auth::user()->id;
+            $this->authorize('admin');
+            $pedido->negado = true;
+            $pedido->justificativa = $request->justificativa;
+            $pedido->save();
+            Mail::queue(new acesso_negado_mail($pedido->email,$pedido));
+            request()->session()->flash('alert-info',
+                'Aviso sobre o arquivo enviada com sucesso para o email: ' . $pedido->email);
+            return back();
+        }
     }
 
     public function acesso_autorizado(Request $request)
@@ -99,6 +121,7 @@ class PedidoController extends Controller
         $total = Pedido::get('id')->count();
         $total_autorizado = Pedido::where('autorizado_em','!=',null)->count();
         $total_pendentes = Pedido::where('autorizado_em','=',null)->count();
+        $total_negados = Pedido::where('negado','=',true)->count();
 
         if(isset($request->busca)) {
                 $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();  
@@ -107,7 +130,7 @@ class PedidoController extends Controller
 
             if($request->type){
                 $export = new FastExcel($this->excel($pedidos));
-                return $export->download('estagios.xlsx');
+                return $export->download('pedidos.xlsx');
             }
         }
         return view('pedidos.realizados')->with([
@@ -115,6 +138,7 @@ class PedidoController extends Controller
             'total' => $total,
             'total_autorizado' => $total_autorizado,
             'total_pendentes' => $total_pendentes,
+            'total_negados' => $total_negados,
         ]);
 
     }
@@ -122,13 +146,23 @@ class PedidoController extends Controller
     private function excel($pedidos){
         $aux =[];
         foreach($pedidos as $pedido){
+            if($pedido->negado == true){
+                $status = 'Acesso Negado';
+            }elseif($pedido->negado =! true || $pedido->autorizador_id == true){
+                $status = 'Acesso Autorizado';
+            }else{
+                $status = 'Pendente';
+            }
+
             $aux[] = [
-                'Arquivo Requisitado' => $pedido->file->name,
-                'Nome'                => $pedido->nome,
-                'Email'               => $pedido->email,
-                'Finalidade'          => $pedido->finalidade,
-                'Data do Pedido'      => $pedido->created_at->format('d/m/Y'), 
-                'Data de Autorização' => $pedido->autorizado_em,
+                'Arquivo Requisitado'               => $pedido->file->name,
+                'Status do Pedido'                  => $status,
+                'Nome'                              => $pedido->nome,
+                'Email'                             => $pedido->email,
+                'Finalidade'                        => $pedido->finalidade,
+                'Justificativa de Acesso Negado'    => $pedido->justificativa,
+                'Data do Pedido'                    => $pedido->created_at->format('d/m/Y'), 
+                'Data de Análise'                   => $pedido->autorizado_em,
             ];
 
         }
