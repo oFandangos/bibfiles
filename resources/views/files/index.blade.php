@@ -15,15 +15,16 @@
         <div class="card-body">
 
             <form method="get" action="/files">
-                <div class="row">
+            <div class="row">
                     <div class=" col-sm input-group">
-                    <input type="text" class="form-control" name="busca" value="{{Request()->busca}}" placeholder="Busca por nome do arquivo">  
+                    <input type="text" class="form-control" name="busca" value="{{ request()->busca }}" placeholder="Busca por nome do arquivo">  
 
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success"> Buscar </button>
                     </span>
+
                     </div>
-                </div>
+            </div>
             </form>
 
             <br>
