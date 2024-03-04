@@ -26,6 +26,7 @@ Route::post('/novopedido', [PedidoController::class,'store']);
 Route::get('/pendentes', [PedidoController::class,'pendentes']);
 Route::get('/pedidos_realizados', [PedidoController::class,'index']);
 Route::post('/autorizar/{pedido}', [PedidoController::class,'autorizar']);
+Route::get('/gerarExcel', [PedidoController::class,'gerarExcel']);
 
 
 Route::get('acesso/autorizado', [PedidoController::class,'acesso_autorizado'])->name('acesso_autorizado');

@@ -16,7 +16,7 @@
 
         </div>      
 
-        <a href="{{ request()->path() }}?type=excel" class="btn btn-info">
+        <a href="/gerarExcel/?busca={{ request()->get('busca') }}" class="btn btn-info">
         <i class="fa fa-file" aria-hidden="true"></i>
         Exportar planilha
         

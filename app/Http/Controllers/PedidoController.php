@@ -14,7 +14,8 @@ use App\Mail\pedido_autorizacao_mail;
 use App\Mail\acesso_autorizado_mail;
 use App\Mail\acesso_negado_mail;
 use Illuminate\Support\Facades\Storage;
-use Rap2hpoutre\FastExcel\FastExcel;
+use Maatwebsite\Excel\Excel;
+use App\Exports\ExcelExport;
 
 class PedidoController extends Controller
 {
@@ -121,16 +122,10 @@ class PedidoController extends Controller
         $total_pendentes = Pedido::where('autorizado_em','=',null)->count();
         $total_negados = Pedido::where('negado','=',true)->count();
 
-        if(isset($request->busca)) {
-                $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();
-        } else {
-            $pedidos = Pedido::get();
+        $pedidos = Pedido::when($request->busca, function ($query) use ($request) { 
+            $query->where('nome','LIKE',"%{$request->busca}%");
+        })->get();
 
-            if($request->type){
-                $export = new FastExcel($this->excel($pedidos));
-                return $export->download('pedidos.xlsx');
-            }
-        }
         return view('pedidos.realizados')->with([
             'pedidos' => $pedidos,
             'total' => $total,
@@ -139,6 +134,16 @@ class PedidoController extends Controller
             'total_negados' => $total_negados,
         ]);
 
+    }
+
+    public function gerarExcel(Request $request, Excel $excel){
+
+        $headings = ['Pedidos', 'Criado em', 'Autorizado em', 'Nome', 'E-mail', 'Finalidade'];
+
+        $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get()->toArray();
+    
+        $export = new ExcelExport($pedidos, $headings);
+        return $excel->download($export, 'pedidos.xlsx');
     }
 
     private function excel($pedidos){
