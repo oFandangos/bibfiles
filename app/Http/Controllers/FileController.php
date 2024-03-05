@@ -7,7 +7,8 @@ use App\Models\File;
 use Illuminate\Http\Request;
 use App\Http\Requests\FileRequest;
 use Illuminate\Support\Facades\Storage;
-use Rap2hpoutre\FastExcel\FastExcel;
+use Maatwebsite\Excel\Excel;
+use App\Exports\FileExcelExport;
 
 class FileController extends Controller
 {
@@ -60,10 +61,14 @@ class FileController extends Controller
         return back();
     } 
 
-    public function excel(){
+    public function fileExcel(Request $request, Excel $excel)
+    {
         $this->authorize('admin');
-        $files = File::with('user')->get();
+        $headings = ['Arquivo', 'Data de envio', 'Hora envio', 'Usuário'];
+        $files = File::where('original_name','LIKE',"%{$request->busca}%")
+                        ->orWhere('name','LIKE',"%{$request->busca}%")->get();
 
+        //array para esconder o token e user_id que vem dentro do obj
         $aux =[];
         foreach($files as $file){
 
@@ -75,8 +80,8 @@ class FileController extends Controller
             ];
 
         }
-        return (new FastExcel(collect($aux)))->download('files.xlsx');
-        }
-
+        $export = new FileExcelExport($aux, $headings);
+        return $excel->download($export, 'files.xlsx');
+    }
 }
 

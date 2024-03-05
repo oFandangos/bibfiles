@@ -146,6 +146,7 @@ class PedidoController extends Controller
         return $excel->download($export, 'pedidos.xlsx');
     }
 
+    //suspeito que essa função não está sendo usada
     private function excel($pedidos){
         $aux =[];
         foreach($pedidos as $pedido){
