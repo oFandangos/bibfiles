@@ -7,16 +7,16 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ExcelExport implements FromArray, WithHeadings
 {
-    protected $pedidos;
+    protected $aux;
     protected $headings;
-    public function __construct($pedidos, $headings){
-        $this->pedidos = $pedidos;
+    public function __construct($aux, $headings){
+        $this->aux = $aux;
         $this->headings = $headings;
     }
 
     public function array(): array
     {
-        return $this->pedidos;
+        return $this->aux;
     }
 
     public function headings() : array
