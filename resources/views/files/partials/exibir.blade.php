@@ -1,7 +1,7 @@
 <div class=row style="border: 10px;"> 
 {{ $files->appends(request()->query())->links() }}
 @can('admin') 
-<a href="{{ route('download_planilha') }}" class="btn btn-info" style="position: absolute; right: 0; margin: 5px;">
+<a href="/fileExcel/?busca={{ request()->get('busca') }}" class="btn btn-info" style="position: absolute; right: 0; margin: 5px;">
 <i class="fa fa-file" aria-hidden="true"></i> Exportar planilha </a>
 @endcan('admin')
 </div>

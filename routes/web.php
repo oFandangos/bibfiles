@@ -14,7 +14,7 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 
 Route::resource('/files', FileController::class);
-Route::get('/excel', [FileCOntroller::class,'excel'])->name('download_planilha');
+Route::get('/fileExcel', [FileController::class,'fileExcel']);
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');

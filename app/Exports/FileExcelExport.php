@@ -5,10 +5,11 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ExcelExport implements FromArray, WithHeadings
+class FileExcelExport implements FromArray, WithHeadings
 {
     protected $aux;
     protected $headings;
+
     public function __construct($aux, $headings){
         $this->aux = $aux;
         $this->headings = $headings;

@@ -138,15 +138,10 @@ class PedidoController extends Controller
 
     public function gerarExcel(Request $request, Excel $excel){
 
-        $headings = ['Pedidos', 'Criado em', 'Autorizado em', 'Nome', 'E-mail', 'Finalidade'];
+        $headings = ['Arquivo Requisitado', 'Status do Pedido', 'Nome', 'E-mail', 'Finalidade', 'Justificativa de Acesso Negado', 'Data do Pedido', 'Data de Análise'];
 
-        $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get()->toArray();
-    
-        $export = new ExcelExport($pedidos, $headings);
-        return $excel->download($export, 'pedidos.xlsx');
-    }
-
-    private function excel($pedidos){
+        $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();
+        
         $aux =[];
         foreach($pedidos as $pedido){
             if($pedido->negado == true){
@@ -169,7 +164,7 @@ class PedidoController extends Controller
             ];
 
         }
-        return collect($aux);
-
-}
+        $export = new ExcelExport($aux, $headings);
+        return $excel->download($export, 'pedidos.xlsx');
+    }
 }
