@@ -8,15 +8,10 @@ use App\Http\Controllers\PedidoController;
 
 Route::get('/',[FileController::class, 'index']);
 
-Route::get('login', [LoginController::class, 'redirectToProvider']);
-Route::get('callback', [LoginController::class, 'handleProviderCallback']);
-Route::post('logout', [LoginController::class, 'logout']);
-
-
 Route::resource('/files', FileController::class);
 Route::get('/fileExcel', [FileController::class,'fileExcel']);
 
-# Logs  
+# Logs
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
 
 

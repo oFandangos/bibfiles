@@ -26,7 +26,7 @@ class FileController extends Controller
     public function create(Request $request){
         $this->authorize('admin');
         return view('files.create');
-    }    
+    }
 
     public function store(FileRequest $request)
     {
@@ -59,7 +59,7 @@ class FileController extends Controller
         $file->delete();
         request()->session()->flash('alert-success', 'Arquivo Deletado');
         return back();
-    } 
+    }
 
     public function fileExcel(Request $request, Excel $excel)
     {

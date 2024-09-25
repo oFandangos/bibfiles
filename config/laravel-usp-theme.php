@@ -26,6 +26,9 @@ $menu = [
 
 $right_menu = [
     [
+        'key' => 'senhaunica-socialite',
+    ],
+    [
         'text'   => '<i class="fas fa-hard-hat"></i>',
         'title'  => 'logs',
         'target' => '_blank',
@@ -37,7 +40,7 @@ $right_menu = [
 
 
 # dashboard_url renomeado para app_url
-# USPTHEME_SKIN deve ser colocado no .env da aplicação 
+# USPTHEME_SKIN deve ser colocado no .env da aplicação
 
 return [
     'title' => 'Sistema de Arquivos da Biblioteca - FFLCH USP',
