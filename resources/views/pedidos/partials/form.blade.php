@@ -23,7 +23,18 @@
         </div>
         <div class="form-group">
             <label for="finalidade">Finalidade do uso do arquivo: </label><br>
-            <textarea name="finalidade" rows="5" cols="60" value="{{old('email',$pedido->email)}}"></textarea>
+            <textarea name="finalidade" rows="5" cols="60">{{old('finalidade',$pedido->finalidade)}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="captcha">
+            <span>{!! captcha_img('flat') !!}</span>
+            <button type="button" class="btn btn-danger reload" id="reload">&#x21bb</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="captcha" placeholder="Digite o captcha">
         </div>
 
         <div class="form-group">

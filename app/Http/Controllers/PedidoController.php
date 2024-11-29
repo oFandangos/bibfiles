@@ -55,7 +55,8 @@ class PedidoController extends Controller
         Mail::queue(new pedido_autorizacao_mail($pedido));
         request()->session()->flash('alert-success', 'Solicitação de acesso enviada com sucesso.
             Aguarde instruções via e-mail.');
-        return back();
+        return redirect('/');
+        #return back();
     }
 
     public function pendentes(){
@@ -122,7 +123,7 @@ class PedidoController extends Controller
         $total_pendentes = Pedido::where('autorizado_em','=',null)->count();
         $total_negados = Pedido::where('negado','=',true)->count();
 
-        $pedidos = Pedido::when($request->busca, function ($query) use ($request) { 
+        $pedidos = Pedido::when($request->busca, function ($query) use ($request) {
             $query->where('nome','LIKE',"%{$request->busca}%");
         })->get();
 
@@ -141,7 +142,7 @@ class PedidoController extends Controller
         $headings = ['Arquivo Requisitado', 'Status do Pedido', 'Nome', 'E-mail', 'Finalidade', 'Justificativa de Acesso Negado', 'Data do Pedido', 'Data de Análise'];
 
         $pedidos = Pedido::where('nome','LIKE',"%{$request->busca}%")->get();
-        
+
         $aux =[];
         foreach($pedidos as $pedido){
             if($pedido->negado == true){

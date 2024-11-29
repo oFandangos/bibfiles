@@ -27,7 +27,8 @@ class PedidoRequest extends FormRequest
             'nome'       => 'required',
             'email'      => 'required',
             'finalidade' => 'required',
-            'file_id'   => 'required'
+            'file_id'    => 'required',
+            'captcha'    => 'required|captcha'
         ];
     }
 
@@ -37,6 +38,8 @@ class PedidoRequest extends FormRequest
             'nome.required' => 'O nome do requisitante deve ser informado',
             'email.required' => 'O email do requisitante deve ser informado',
             'finalidade.required' => 'O motivo do pedido deve ser informado',
+            'captcha.required' => 'O desafio captcha deve ser informado',
+            'captcha.captcha' => 'Captcha inválido',
         ];
     }
 }

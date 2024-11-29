@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CaptchaController;
 
 Route::get('/',[FileController::class, 'index']);
+Route::get('/reload-captcha', CaptchaController::class);
 
 Route::resource('/files', FileController::class);
 Route::get('/fileExcel', [FileController::class,'fileExcel']);

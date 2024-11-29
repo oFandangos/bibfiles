@@ -13,10 +13,11 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "mews/captcha": "^3.4",
         "rap2hpoutre/fast-excel": "^5.5.0",
         "rap2hpoutre/laravel-log-viewer": "^2.4.0",
         "uspdev/laravel-usp-theme": "^2.0",
-        "uspdev/replicado":"^1.5",
+        "uspdev/replicado": "^1.5",
         "uspdev/senhaunica-socialite": "^4.3"
     },
     "require-dev": {
